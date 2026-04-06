@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  /* The flip card container */
+  .fact-card {
+    background-color: transparent;
+    width: 300px;
+    height: 200px;
+    perspective: 1000px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+  }
+
+  /* This container is needed to position the front and back side */
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 15px;
+  }
+
+  /* Do a horizontal flip when you move the mouse over the flip box container */
+  .fact-card:hover .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Position the front and back side */
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 15px;
+  }
+
+  /* Style the front side (blue for 'Computers') */
+  .card-front {
+    background-color: #00a8e8;
+    color: white;
+  }
+
+  /* Style the back side (white with border) */
+  .card-back {
+    background-color: #f1f1f1;
+    color: #333;
+    transform: rotateY(180deg);
+    border: 2px solid #00a8e8;
+  }
+
+  h1 { font-size: 50px; margin: 0; }
+  p { font-size: 18px; line-height: 1.4; }
+
+
+  #fact-container {
+    margin-top: 40px;
+    padding: 20px;
+    border: 3px dashed #00a8e8;
+    border-radius: 15px;
+    max-width: 400px;
+    text-align: center;
+    background: #fff;
+  }
+  #fact-display {
+    font-size: 20px;
+    min-height: 80px;
+    transition: opacity 0.3s ease;
+  }
+  button {
+    background-color: #00a8e8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  button:hover { background-color: #007ea7; }
+
+  #binary-tool {
+    background-color: #222;
+    color: #00ff41; /* "Matrix" green */
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 400px;
+    margin-top: 40px;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+  }
+  input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  #binary-output {
+    word-wrap: break-word;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 15px;
+    min-height: 40px;
+  }
+  
+  <style>
+  #glossary-section {
+    max-width: 600px;
+    margin: 40px auto;
+    font-family: sans-serif;
+  }
+  #glossary-search {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    border: 2px solid #00a8e8;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    outline: none;
+  }
+  .glossary-item {
+    background: #fff;
+    border-left: 5px solid #00a8e8;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .glossary-item:hover { transform: scale(1.02); }
+  .term { font-weight: bold; color: #00a8e8; font-size: 1.2em; display: block; }
+  .definition { color: #555; margin-top: 5px; }
+  
+</style>
+</head>
+<body>
+
+<h3>Hover over the card to reveal the fact!</h3>
+
+<div class="fact-card">
+  <div class="card-inner">
+    <!-- Front Side -->
+    <div class="card-front">
+      <div>
+        <h1>#1</h1>
+        <p>THE FIRST BUG</p>
+      </div>
+    </div>
+    <!-- Back Side -->
+    <div class="card-back">
+      <p>In 1947, engineers found a real <b>moth</b> stuck inside their computer. This is why we call computer errors "bugs" today!</p>
+    </div>
+  </div>
+</div>
+
+<div id="fact-container">
+  <p id="fact-display">Click the button for a random fact!</p>
+  <button onclick="showRandomFact()">Surprise Me!</button>
+</div>
+
+<script>
+  const facts = [
+    "Most of the internet is actually located underwater via massive undersea cables.",
+    "The term 'computer bug' originated when a real moth was found inside a computer in 1947.",
+    "There is a specific spot in the human brain dedicated to recognising numbers.",
+    "The first computer programmer was a woman named Ada Lovelace.",
+    "Computers don't see words; they only see 'on' and 'off' switches (1s and 0s).",
+    "Scientists are exploring ways to store data inside plant DNA!",
+    "The Fibonacci sequence (1, 1, 2, 3...) appears everywhere in nature, from pinecones to galaxies."
+  ];
+
+  function showRandomFact() {
+    const display = document.getElementById('fact-display');
+    
+    // Pick a random index
+    const randomIndex = Math.floor(Math.random() * facts.length);
+    
+    // Add a quick fade out/in effect
+    display.style.opacity = 0;
+    setTimeout(() => {
+      display.innerText = facts[randomIndex];
+      display.style.opacity = 1;
+    }, 200);
+  }
+</script>
+
+<div id="binary-tool">
+  <h3>BINARY TRANSLATOR</h3>
+  <p>Type your name to see it in code:</p>
+  <input type="text" id="user-input" placeholder="Type here..." oninput="convertToBinary()">
+  <div id="binary-output">01001000 01100101 01101100 01101100 01101111</div>
+</div>
+
+<script>
+  function convertToBinary() {
+    const input = document.getElementById('user-input').value;
+    const output = document.getElementById('binary-output');
+    
+    // Take each letter, turn it into its "ASCII" number, then to binary
+    let binaryResult = input.split('').map(char => {
+      return char.charCodeAt(0).toString(2).padStart(8, '0');
+    }).join(' ');
+
+    output.innerText = binaryResult || "Type something above!";
+  }
+</script>
+
+<div id="glossary-section">
+  <h2>Tech Word Finder</h2>
+  <input type="text" id="glossary-search" placeholder="Search for a word (e.g. Pixel)..." onkeyup="filterGlossary()">
+  
+  <div id="glossary-list">
+    <div class="glossary-item">
+      <span class="term">Algorithm</span>
+      <span class="definition">A step-by-step set of instructions for a computer to follow, like a recipe for a cake.</span>
+    </div>
+    <div class="glossary-item">
+      <span class="term">Binary</span>
+      <span class="definition">A way of counting using only two digits: 0 and 1. It’s the language computers speak!</span>
+    </div>
+    <div class="glossary-item">
+      <span class="term">Pixel</span>
+      <span class="definition">Short for "picture element." These are the tiny dots of light that make up your screen.</span>
+    </div>
+    <div class="glossary-item">
+      <span class="term">Server</span>
+      <span class="definition">A powerful computer that "serves" data to other computers, like a library for the internet.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  function filterGlossary() {
+    let input = document.getElementById('glossary-search').value.toLowerCase();
+    let items = document.getElementsByClassName('glossary-item');
+
+    for (let i = 0; i < items.length; i++) {
+      let term = items[i].getElementsByClassName('term')[0].innerText.toLowerCase();
+      if (term.includes(input)) {
+        items[i].style.display = "";
+      } else {
+        items[i].style.display = "none";
+      }
+    }
+  }
+</script>
+
+
+
+</body>
+</html>
