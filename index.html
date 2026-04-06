@@ -1,7 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <style>
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #f1f1f1;
+  --accent: #00a8e8;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #00ff41; /* Hacker Green */
+  --card-bg: #2d2d2d;
+  --accent: #00ff41;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+/* Update your existing card styles to use these variables */
+.card-back {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 2px solid var(--accent);
+}
+
+
   /* The flip card container */
   .fact-card {
     background-color: transparent;
@@ -140,9 +169,33 @@
   .term { font-weight: bold; color: #00a8e8; font-size: 1.2em; display: block; }
   .definition { color: #555; margin-top: 5px; }
   
+  .glow-img {
+  filter: drop-shadow(0 0 8px rgba(0, 168, 232, 0.8)); /* Blue glow */
+  transition: filter 0.3s ease;
+}
+
+/* Make it glow brighter when you hover over the card! */
+.fact-card:hover .glow-img {
+  filter: drop-shadow(0 0 15px rgba(0, 255, 65, 0.9)); /* Changes to Green glow */
+}
+
+@keyframes flicker {
+  0% { opacity: 0.9; }
+  50% { opacity: 1; }
+  100% { opacity: 0.95; }
+}
+
+.flicker-effect {
+  animation: flicker 0.1s infinite;
+}
+
 </style>
 </head>
 <body>
+<div style="text-align: right; padding: 10px;">
+  <button id="theme-toggle" onclick="toggleTheme()">🌙 Switch to Coder Mode</button>
+</div>
+
 
 <h3>Hover over the card to reveal the fact!</h3>
 
@@ -152,7 +205,7 @@
     <div class="card-front">
       <div>
         <!-- Placeholder for your icon -->
-		<img src="YOUR_IMAGE_URL_HERE.png" alt="Fact Icon" style="width:80px; margin-bottom:10px;">
+		<img src="inkflo logo.jpg" class="glow-img" alt="inkflo logo" style="width:80px; margin-bottom:10px;">
 		<h1>#1</h1>
         <p>THE FIRST BUG</p>
       </div>
@@ -193,6 +246,19 @@
       display.style.opacity = 1;
     }, 200);
   }
+
+function toggleTheme() {
+  const body = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  
+  if (body.getAttribute('data-theme') === 'dark') {
+    body.removeAttribute('data-theme');
+    btn.innerText = "🌙 Switch to Coder Mode";
+  } else {
+    body.setAttribute('data-theme', 'dark');
+    btn.innerText = "☀️ Switch to Book Mode";
+  }
+}
 </script>
 
 <div id="binary-tool">
